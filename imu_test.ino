@@ -22,6 +22,15 @@ void setup() {
   lsm6ds33.setAccelDataRate(LSM6DS_RATE_12_5_HZ);
   lsm6ds33.setGyroDataRate(LSM6DS_RATE_12_5_HZ);
 
+  // First few IMU readings are garbage
+  for (int i = 0; i < 10; ++i) {
+    sensors_event_t accel;
+    sensors_event_t gyro;
+    sensors_event_t temp;
+    lsm6ds33.getEvent(&accel, &gyro, &temp);
+    delay(100);
+  }
+
   // Calibrate bias
   bias = 0;
   for (int i = 0; i < 10; ++i) {
